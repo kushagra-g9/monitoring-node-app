@@ -5,6 +5,7 @@ pipeline {
     IMAGE_NAME = 'kushagrag99/monitoring-app'
     REGISTRY_CREDENTIALS = 'docker-cred'          // DockerHub credentials in Jenkins
     KUBECONFIG_CREDENTIAL_ID = 'kubeconfig-jenkins'  // Kubernetes kubeconfig credentials in Jenkins
+    PATH = "${env.PATH}:/usr/local/bin"
   }
 
   stages {
