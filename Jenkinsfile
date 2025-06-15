@@ -34,17 +34,21 @@ pipeline {
       }
     }
 
-    stage('Deploy to Kubernetes') {
-      steps {
-        withCredentials([file(credentialsId: KUBECONFIG_CREDENTIAL_ID, variable: 'KUBECONFIG_FILE')]) {
-          sh '''
-            export KUBECONFIG=$KUBECONFIG_FILE
-            sed -i "s|kushagrag99/monitoring-app:latest|$IMAGE_TAG|g" k8s/deployment.yaml
-            kubectl apply -f k8s/
-          '''
-        }
-      }
+   stage('Deploy to Kubernetes') {
+  steps {
+    script {
+      IMAGE_TAG = "${IMAGE_NAME}:${env.BUILD_NUMBER}"
     }
+    withCredentials([file(credentialsId: KUBECONFIG_CREDENTIAL_ID, variable: 'KUBECONFIG_FILE')]) {
+      sh """
+        export KUBECONFIG=$KUBECONFIG_FILE
+        sed -i 's|kushagrag99/monitoring-app:latest|${IMAGE_TAG}|g' k8s/deployment.yaml
+        kubectl apply -f k8s/
+      """
+    }
+  }
+}
+
   }
 
   post {
