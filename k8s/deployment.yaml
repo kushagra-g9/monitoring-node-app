@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: kushagrag99/monitoring-app:latest   # replace with your image
+          image: kushagrag99/monitoring-app:latest
           ports:
             - containerPort: 3000
           readinessProbe:
@@ -23,3 +23,10 @@ spec:
               port: 3000
             initialDelaySeconds: 3
             periodSeconds: 5
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
